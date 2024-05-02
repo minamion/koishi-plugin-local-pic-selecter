@@ -11,11 +11,12 @@
   "license": "MIT",
   "scripts": {},
   "contributors": [
-    "Pipikai <z1652091948@outlook.com>"
+    "Pipikai <z1652091948@outlook.com>",
+    "Closure <i@seaslug.moe>"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PIPIKAI/koishi-plugin-local-pic-selecter"
+    "url": "git+https://github.com/minamion/koishi-plugin-local-pic-selecter"
   },
   "keywords": [
     "chatbot",
@@ -28,5 +29,16 @@
   ],
   "peerDependencies": {
     "koishi": "^4.13.6"
+  },
+  "koishi": {
+    "description": {
+      "en": "local pic selecter",
+      "zh": "随机选择本地图片输出"
+    },
+    "service": {
+
+    },
+    "preview": "True",
+    "locales": ["en", "zh"]
   }
 }
