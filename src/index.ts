@@ -3,13 +3,14 @@ import { Context, h, Schema } from 'koishi'
 import { ImagerPicker } from './imagepicker'
 import { pathToFileURL } from 'url'
 import { resolve, join } from 'path'
+import * as fs from "fs";
 export const name = 'local-pic-selecter'
 export interface Config {
   basePath: string
   postfixs: Array<string>
   maxout: number
 }
-
+export const inject = ['assets']
 export const Config: Schema<Config> = Schema.object({
   basePath: Schema.string().required().description('图库的基本地址'),
   postfixs: Schema.array(String).required().role('table').description('图库的后缀地址,同时也是command的名称'),
@@ -31,9 +32,11 @@ export function apply(ctx: Context, config: Config) {
         let res = []
         for (const fname of pickeed) {
           const p = join(config.basePath, postfix, fname)
-          res.push(h.image(pathToFileURL(p).href))
-        }
-        return res
+          let bitmap = fs.readFileSync(p);
+          let base64str = Buffer.from(bitmap, 'binary').toString('base64'); // base64编码
+          //res.push(h.image('data:image/png;base64,' + base64str))
+          res.push(h.image(`data:image/${p.split('.').pop()};base64,${base64str}`))
+        return res;
       }
       )
   }
