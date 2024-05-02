@@ -32,7 +32,8 @@ export function apply(ctx: Context, config: Config) {
         let res = []
         for (const fname of pickeed) {
           const p = join(config.basePath, postfix, fname)
-          let bitmap = fs.readFileSync(p);
+          const bitmap = fs.readFileSync(p, 'binary');
+          //let bitmap = fs.readFileSync(p);
           let base64str = Buffer.from(bitmap, 'binary').toString('base64'); // base64编码
           res.push(h.image('data:image/png;base64,' + base64str))
           //res.push(h.image(`data:image/${p.split('.').pop()};base64,${base64str}`))
