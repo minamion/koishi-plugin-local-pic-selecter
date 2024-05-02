@@ -21,25 +21,25 @@ export const Config: Schema<Config> = Schema.object({
 export function apply(ctx: Context, config: Config) {
   for (const postfix of config.postfixs) {
     ctx.command(`${postfix} [count:number]`)
-      .action((_, count) => {
-        if (!count) {
-          count = 1
-        }
-        if (count > config.maxout) {
-          count = config.maxout
-        }
-        let pickeed = ImagerPicker(config.basePath, postfix, count)
-        let res = []
-        for (const fname of pickeed) {
-          const p = join(config.basePath, postfix, fname)
-          let bitmap = fs.readFileSync(p);
+        .action((_, count) => {
+          if (!count) {
+            count = 1
+          }
+          if (count > config.maxout) {
+            count = config.maxout
+          }
+          let pickeed = ImagerPicker(config.basePath, postfix, count)
+          let res = []
+          for (const fname of pickeed) {
+            const p = join(config.basePath, postfix, fname)
+            let bitmap = fs.readFileSync(p);
 
-          let base64str = Buffer.from(bitmap, 'binary').toString('base64'); // base64编码
+            let base64str = Buffer.from(bitmap, 'binary').toString('base64'); // base64编码
 
-          res.push(h.image('data:image/png;base64,' + base64str))
+            //res.push(h.image('data:image/png;base64,' + base64str))
+            res.push(h.image(`data:image/${p.split('.').pop()};base64,${base64str}`))
+          return res;
         }
-        return res;
-      }
       )
   }
 
